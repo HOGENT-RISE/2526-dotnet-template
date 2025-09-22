@@ -1,4 +1,5 @@
 ﻿@page "/product"
+@using Rise.Shared.Identity
 
 <PageTitle>Products</PageTitle>
 
@@ -6,9 +7,11 @@
 
 <p>This component demonstrates fetching data from the server.</p>
 
-<div class="is-flex is-justify-content-flex-end">
-    <a href="product/create" class="button is-dark">Create</a>
-</div>
+<AuthorizeView Roles="@AppRoles.Administrator">
+    <div class="is-flex is-justify-content-flex-end">
+        <a href="product/create" class="button is-dark">Create</a>
+    </div>
+</AuthorizeView>
 
 @if (products == null)
 {

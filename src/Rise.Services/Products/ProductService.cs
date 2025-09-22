@@ -22,8 +22,8 @@ public class ProductService(ApplicationDbContext dbContext) : IProductService
 
         var p = new Product
         {
-            Name = request.Name,
-            Description = request.Description
+            Name = request.Name!,
+            Description = request.Description!
         };
         
         dbContext.Products.Add(p);

@@ -1,9 +1,11 @@
 # Rise - [GROUPNAME]
 
 ## Team Members
+
 - [MEMBER1_NAME] - [MEMBER1_EMAIL] - [MEMBER1_GITHUB_USERNAME]
 
 ## Technologies & Packages Used
+
 - [Blazor](https://dotnet.microsoft.com/en-us/apps/aspnet/web-apps/blazor) - Frontend.
 - [ASP.NET 9](https://dotnet.microsoft.com/en-us/apps/aspnet) - Backend.
 - [Entity Framework 9](https://learn.microsoft.com/en-us/ef/) - Database Access with Unit Of Work and Repository patterns.
@@ -19,8 +21,10 @@
 - [xUnit](https://xunit.net) - (Unit) Testing.
 - [nSubstitute](https://nsubstitute.github.io) - Mocking for testing.
 - [Shouldly](https://docs.shouldly.org) - Helper for testing.
+- [Destructurama.Attributed](https://github.com/destructurama/attributed) - Masking for sensitive datatypes.
 
 ## Installation Instructions
+
 1. Clone the repository
 
 2. Open the `Rise.sln` file in [Rider](https://www.jetbrains.com/rider/), [Visual Studio](https://visualstudio.microsoft.com/) or  [Visual Studio Code](https://code.visualstudio.com/).
@@ -53,30 +57,38 @@
 
    4. Mongo etc... 
 
-
 ## Creation of the database
+
 Install the dotnet ef tool globally by running the following command in your terminal (only do this once)
+
 ```
 dotnet tool install --global dotnet-ef
 ```
 
 To create the database, run the following command in the main folder `Rise`
+
 ```
 dotnet ef database update --startup-project Rise.Server --project Rise.Persistence
 ```
+
 > Make sure your connection string is correct in the `Rise/Server/appsettings.json` file.
 
 ## Migrations
+
 Adapting the database schema can be done using migrations. To create a new migration, run the following command:
+
 ```
 dotnet ef migrations add [MIGRATION_NAME] --startup-project Rise.Server --project Rise.Persistence
 ```
+
 And then update the database using the following command:
+
 ```
 dotnet ef database update --startup-project Rise.Server --project Rise.Persistence
 ```
 
 ## Authentication
+
 Authentication and authorization is present, you'll host and maintain the user accounts in your own database without any external identity provider. You can login with the following test users with the password `A1b2C3!`
 
 ### Users

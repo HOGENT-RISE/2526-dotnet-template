@@ -10,11 +10,11 @@ public static partial class ProductRequest
         /// <summary>
         /// The name of the product.
         /// </summary>
-        public required string Name { get; set; }
+        public string? Name { get; set; }
         /// <summary>
         /// A short description of the product.
         /// </summary>
-        public required string Description { get; set; }
+        public string? Description { get; set; }
         
         public class Validator : AbstractValidator<Create>
         {
@@ -31,6 +31,6 @@ public static partial  class ProductResponse
 {
     public class Create
     {
-        public required int ProductId { get; set; }
+        public int ProductId { get; set; }
     }
 }

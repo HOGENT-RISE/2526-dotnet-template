@@ -18,7 +18,7 @@ namespace Rise.Client.Identity
         /// <summary>
         /// Special auth client.
         /// </summary>
-        private readonly HttpClient httpClient = httpClientFactory.CreateClient("Auth");
+        private readonly HttpClient httpClient = httpClientFactory.CreateClient("SecureApi");
         
         /// <summary>
         /// Authentication state.
@@ -35,7 +35,7 @@ namespace Rise.Client.Identity
         /// </summary>
         /// <param name="email">The user's email address.</param>
         /// <param name="password">The user's password.</param>
-        /// <returns>The result serialized to a <see cref="FormResult"/>.
+        /// <returns>The result serialized to a <see cref="Result"/>.
         /// </returns>
         public async Task<Result> RegisterAsync(string email, string password, string confirmPassword)
         {
@@ -49,10 +49,11 @@ namespace Rise.Client.Identity
                 });
             
                 var result = await response.Content.ReadFromJsonAsync<Result>();
-                return result;
+                return result!;
             }
             catch (Exception ex)
             {
+                Log.Error(ex, "Could not register user.");
                 return Result.Error("An unknown error prevented registration from succeeding.");
             }
          }
@@ -79,11 +80,11 @@ namespace Rise.Client.Identity
                     NotifyAuthenticationStateChanged(GetAuthenticationStateAsync());
                 }
 
-                return result;
+                return result!;
             }
             catch (Exception ex)
             {
-                // Console.WriteLine(ex, "App error");
+                Log.Error(ex, "Could not login user.");
             }
 
             return Result.Error("Invalid email and/or password.");
@@ -130,11 +131,11 @@ namespace Rise.Client.Identity
             }
             catch (HttpRequestException ex) when (ex.StatusCode != HttpStatusCode.Unauthorized)
             {
-                // logger.LogError(ex, "App error");
+                Log.Error(ex, "Could not GetAuthenticationStateAsync.");
             }
             catch (Exception ex)
             {
-                // logger.LogError(ex, "App error");
+                Log.Error(ex, "Could not GetAuthenticationStateAsync.");
             }
 
             return new AuthenticationState(user);

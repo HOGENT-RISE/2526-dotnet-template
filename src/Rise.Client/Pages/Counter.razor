@@ -11,5 +11,9 @@
 @code {
     private int currentCount = 0;
 
-    private void IncrementCount() => currentCount++;
+    private void IncrementCount()
+    {
+        currentCount++;
+        Log.Information("Current count {@Count}",currentCount);
+    }
 }

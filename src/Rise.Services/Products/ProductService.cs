@@ -51,8 +51,8 @@ public class ProductService(ApplicationDbContext dbContext) : IProductService
         if (!string.IsNullOrWhiteSpace(request.OrderBy))
         {
             query = request.OrderDescending
-                ? query.OrderByDescending(e => EF.Property<string>(e, request.OrderBy))
-                : query.OrderBy(e => EF.Property<string>(e, request.OrderBy));
+                ? query.OrderByDescending(e => EF.Property<object>(e, request.OrderBy))
+                : query.OrderBy(e => EF.Property<object>(e, request.OrderBy));
         }
         else
         {

@@ -11,8 +11,8 @@ public class Create(IProductService productService) : Endpoint<ProductRequest.Cr
 {
     public override void Configure()
     {
-        Post("/api/products");
-        Roles(AppRoles.Technician, AppRoles.Administrator); // Only Technicians and Administrators can create products.
+        Post("/api/product");
+        Roles(AppRoles.Administrator); // Only Administrators can create products.
     }
 
     public override Task<Result<ProductResponse.Create>> ExecuteAsync(ProductRequest.Create req, CancellationToken ctx)

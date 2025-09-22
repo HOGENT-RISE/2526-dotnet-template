@@ -12,7 +12,7 @@ namespace Rise.Services.Products;
 /// <param name="dbContext"></param>
 public class ProductService(ApplicationDbContext dbContext) : IProductService
 {
-    public async Task<Result<ProductResponse.Create>> CreateAsync(ProductRequest.Create request, CancellationToken ctx)
+    public async Task<Result<ProductResponse.Create>> CreateAsync(ProductRequest.Create request, CancellationToken ctx = default)
     {
         if (await dbContext.Products.AnyAsync(x => x.Name == request.Name))
         {

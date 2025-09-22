@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using Rise.Domain.Projects;
 using Rise.Persistence;
 using Rise.Services.Identity;
 using Rise.Shared.Identity;
@@ -14,7 +13,7 @@ namespace Rise.Services.Projects;
 /// <param name="sessionContextProvider"></param>
 public class ProjectService(ApplicationDbContext dbContext, ISessionContextProvider sessionContextProvider) : IProjectService
 {
-    public async Task<Result> EditAsync(ProjectRequest.Edit req, CancellationToken ctx)
+    public async Task<Result> EditAsync(ProjectRequest.Edit req, CancellationToken ctx = default)
     {
         var project = await dbContext.Projects
             .Include(x => x.Technician)

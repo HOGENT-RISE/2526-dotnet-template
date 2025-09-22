@@ -1,11 +1,7 @@
 using System.Net;
 using System.Net.Http.Json;
 using System.Security.Claims;
-using System.Text;
-using System.Text.Json;
-using Ardalis.Result;
 using Microsoft.AspNetCore.Components.Authorization;
-using Rise.Client.Identity.Models;
 using Rise.Shared.Identity.Accounts;
 
 namespace Rise.Client.Identity
@@ -17,23 +13,13 @@ namespace Rise.Client.Identity
     /// Create a new instance of the auth provider.
     /// </remarks>
     /// <param name="httpClientFactory">Factory to retrieve auth client.</param>
-    public class CookieAuthenticationStateProvider(IHttpClientFactory httpClientFactory, ILogger<CookieAuthenticationStateProvider> logger)
-        : AuthenticationStateProvider, IAccountManagement
+    public class CookieAuthenticationStateProvider(IHttpClientFactory httpClientFactory): AuthenticationStateProvider, IAccountManager
     {
-        /// <summary>
-        /// Map the JavaScript-formatted properties to C#-formatted classes.
-        /// </summary>
-        private readonly JsonSerializerOptions jsonSerializerOptions =
-            new()
-            {
-                PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-            };
-
         /// <summary>
         /// Special auth client.
         /// </summary>
         private readonly HttpClient httpClient = httpClientFactory.CreateClient("Auth");
-
+        
         /// <summary>
         /// Authentication state.
         /// </summary>
@@ -51,47 +37,31 @@ namespace Rise.Client.Identity
         /// <param name="password">The user's password.</param>
         /// <returns>The result serialized to a <see cref="FormResult"/>.
         /// </returns>
-        public async Task<FormResult> RegisterAsync(string email, string password)
+        public async Task<Result> RegisterAsync(string email, string password)
         {
-            string[] defaultDetail = [ "An unknown error prevented registration from succeeding." ];
-
             try
             {
-                // make the request
-                var result = await httpClient.PostAsJsonAsync(
-                    "/api/identity/accounts/register",
-                    new AccountRequest.Register
-                    {
-                        Email = email,
-                        Password = password
-                    });
-
-                var typedResult = await result.Content.ReadFromJsonAsync<Result>();
-
-                // successful?
-                if (result.IsSuccessStatusCode)
+                var response = await httpClient.PostAsJsonAsync("/api/identity/accounts/register", new AccountRequest.Register
                 {
-                    return new FormResult { Succeeded = true };
+                    Email = email,
+                    Password = password,
+                });
+            
+                var result = await response.Content.ReadFromJsonAsync<Result>();
+            
+                if (result!.IsSuccess)
+                {
+                    NotifyAuthenticationStateChanged(GetAuthenticationStateAsync());
+                    return result;
                 }
-                // // body should contain details about why it failed
-
-                return new FormResult
-                {
-                    Succeeded = false,
-                    ErrorList = typedResult!.Errors.ToArray()
-                };
             }
             catch (Exception ex)
             {
-                logger.LogError(ex, "App error");
+                // logger.LogError(ex, "App error");
             }
 
             // unknown error
-            return new FormResult
-            {
-                Succeeded = false,
-                ErrorList = defaultDetail
-            };
+            return Result.Error("An unknown error prevented registration from succeeding.");
         }
 
         /// <summary>
@@ -100,38 +70,30 @@ namespace Rise.Client.Identity
         /// <param name="email">The user's email address.</param>
         /// <param name="password">The user's password.</param>
         /// <returns>The result of the login request serialized to a <see cref="FormResult"/>.</returns>
-        public async Task<FormResult> LoginAsync(string email, string password)
+        public async Task<Result> LoginAsync(string email, string password)
         {
             try
             {
-                // login with cookies
-                var result = await httpClient.PostAsJsonAsync(
-                    "/api/identity/accounts/login", new
-                    {
-                        email,
-                        password
-                    });
-                // success?
-                if (result.IsSuccessStatusCode)
+                var response = await httpClient.PostAsJsonAsync("/api/identity/accounts/login", new AccountRequest.Login
                 {
-                    // need to refresh auth state
+                    Email = email,
+                    Password = password,
+                });
+            
+                var result = await response.Content.ReadFromJsonAsync<Result>();
+                Console.WriteLine(result);
+                if (response.IsSuccessStatusCode)
+                {
                     NotifyAuthenticationStateChanged(GetAuthenticationStateAsync());
-
-                    // success!
-                    return new FormResult { Succeeded = true };
+                    return result;
                 }
             }
             catch (Exception ex)
             {
-                logger.LogError(ex, "App error");
+                // Console.WriteLine(ex, "App error");
             }
 
-            // unknown error
-            return new FormResult
-            {
-                Succeeded = false,
-                ErrorList = [ "Invalid email and/or password." ]
-            };
+            return Result.Error("Invalid email and/or password.");
         }
 
         /// <summary>
@@ -175,11 +137,11 @@ namespace Rise.Client.Identity
             }
             catch (HttpRequestException ex) when (ex.StatusCode != HttpStatusCode.Unauthorized)
             {
-                logger.LogError(ex, "App error");
+                // logger.LogError(ex, "App error");
             }
             catch (Exception ex)
             {
-                logger.LogError(ex, "App error");
+                // logger.LogError(ex, "App error");
             }
 
             return new AuthenticationState(user);
@@ -187,9 +149,7 @@ namespace Rise.Client.Identity
 
         public async Task LogoutAsync()
         {
-            const string Empty = "{}";
-            var emptyContent = new StringContent(Empty, Encoding.UTF8, "application/json");
-            await httpClient.PostAsync("/api/identity/accounts/login", emptyContent);
+            await httpClient.PostAsync("/api/identity/accounts/logout", null);
             NotifyAuthenticationStateChanged(GetAuthenticationStateAsync());
         }
 

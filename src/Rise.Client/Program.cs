@@ -23,7 +23,7 @@ builder.Services.AddScoped<AuthenticationStateProvider, CookieAuthenticationStat
 
 // register the account management interface
 builder.Services.AddScoped(
-    sp => (IAccountManagement)sp.GetRequiredService<AuthenticationStateProvider>());
+    sp => (IAccountManager)sp.GetRequiredService<AuthenticationStateProvider>());
 
 // set base address for default host
 builder.Services.AddScoped(sp =>

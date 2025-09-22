@@ -1,11 +1,9 @@
-﻿using Rise.Client.Identity.Models;
-
-namespace Rise.Client.Identity
+﻿namespace Rise.Client.Identity
 {
     /// <summary>
     /// Account management services.
     /// </summary>
-    public interface IAccountManagement
+    public interface IAccountManager
     {
         /// <summary>
         /// Login service.
@@ -13,7 +11,7 @@ namespace Rise.Client.Identity
         /// <param name="email">User's email.</param>
         /// <param name="password">User's password.</param>
         /// <returns>The result of the request serialized to <see cref="FormResult"/>.</returns>
-        public Task<FormResult> LoginAsync(string email, string password);
+        public Task<Result> LoginAsync(string email, string password);
 
         /// <summary>
         /// Log out the logged in user.
@@ -27,7 +25,7 @@ namespace Rise.Client.Identity
         /// <param name="email">User's email.</param>
         /// <param name="password">User's password.</param>
         /// <returns>The result of the request serialized to <see cref="FormResult"/>.</returns>
-        public Task<FormResult> RegisterAsync(string email, string password);
+        public Task<Result> RegisterAsync(string email, string password);
 
         public Task<bool> CheckAuthenticatedAsync();
     }

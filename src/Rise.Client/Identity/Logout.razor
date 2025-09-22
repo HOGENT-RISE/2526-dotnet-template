@@ -1,11 +1,9 @@
 @page "/logout"
-@inject IAccountManagement Acct
+@inject IAccountManager AccountManager
 
 <PageTitle>Logout</PageTitle>
 
-<h1>Logout</h1>
-
-<AuthorizeView @ref="authView">
+<AuthorizeView>
     <Authorized>
         <div class="alert alert-info">Logging you out...</div>
     </Authorized>
@@ -15,13 +13,11 @@
 </AuthorizeView>
 
 @code {
-    private AuthorizeView? authView;
-
     protected override async Task OnInitializedAsync()
     {
-        if (await Acct.CheckAuthenticatedAsync())
+        if (await AccountManager.CheckAuthenticatedAsync())
         {
-            await Acct.LogoutAsync();
+            await AccountManager.LogoutAsync();
         }
     }
 }

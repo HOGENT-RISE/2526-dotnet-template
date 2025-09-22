@@ -1,18 +1,18 @@
 @page "/register"
 @using System.ComponentModel.DataAnnotations
 @using Rise.Client.Identity.Models
-@inject IAccountManagement Acct
+@inject IAccountManager Acct
 
 <PageTitle>Register</PageTitle>
 
 <h1>Register</h1>
 
-<AuthorizeView>
+<AuthorizeView Context="authContext">
     <Authorized>
-        <div class="alert alert-success">You're already logged in as @context.User.Identity?.Name.</div>
+        <div class="alert alert-success">You're already logged in as @authContext.User.Identity?.Name.</div>
     </Authorized>
     <NotAuthorized>
-        @if (formResult.Succeeded)
+        @if (result.IsSuccess)
         {
             <div class="alert alert-success">
                 You successfully registered. Now you can <a href="login">login</a>.
@@ -20,16 +20,15 @@
         }
         else
         {
-            @foreach (var error in formResult.ErrorList)
+            @foreach (var error in result.Errors)
             {
                 <div class="alert alert-danger">@error</div>
             }
             <div class="row">
                 <div class="col">
                     <section>
-                        <EditForm Model="Input" method="post" OnValidSubmit="RegisterUserAsync"
-                                  FormName="register" Context="editform_context">
-                            <DataAnnotationsValidator />
+                        <EditForm Model="Input" OnValidSubmit="RegisterUserAsync">
+                            <FluentValidationValidator />
                             <h2>Register as a new user.</h2>
                             <hr />
                             <div class="form-floating mb-3">
@@ -87,14 +86,14 @@
 </AuthorizeView>
 
 @code {
-    private FormResult formResult = new();
+    private Result result = new();
 
     [SupplyParameterFromForm]
     private InputModel Input { get; set; } = new();
 
     public async Task RegisterUserAsync()
     {
-        formResult = await Acct.RegisterAsync(Input.Email, Input.Password);
+        result = await Acct.RegisterAsync(Input.Email, Input.Password);
     }
 
     private sealed class InputModel

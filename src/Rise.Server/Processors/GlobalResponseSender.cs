@@ -35,7 +35,7 @@ sealed class GlobalResponseSender : IGlobalPostProcessor
                         await ctx.HttpContext.Response.SendAsync(result, StatusCodes.Status404NotFound, cancellation: ct);
                         break;
                     case ResultStatus.NoContent:
-                        await ctx.HttpContext.Response.SendNoContentAsync(ct);
+                        await ctx.HttpContext.Response.SendAsync(result, StatusCodes.Status204NoContent, cancellation: ct);
                         break;
                     case ResultStatus.Conflict:
                         await ctx.HttpContext.Response.SendAsync(result, StatusCodes.Status409Conflict, cancellation: ct);

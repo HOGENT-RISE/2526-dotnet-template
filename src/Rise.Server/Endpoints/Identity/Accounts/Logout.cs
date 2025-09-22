@@ -1,13 +1,17 @@
 using Microsoft.AspNetCore.Identity;
 
-namespace Rise.Server.Endpoints.Identity.Account;
+namespace Rise.Server.Endpoints.Identity.Accounts;
 
+/// <summary>
+/// Logout Endpoint.
+/// See https://fast-endpoints.com/
+/// </summary>
+/// <param name="signInManager"></param>
 public class Logout(SignInManager<IdentityUser> signInManager) : EndpointWithoutRequest
 {
     public override void Configure()
     {
         Post("api/identity/logout");
-        AllowAnonymous();       
     }
 
     public override async Task<Result> HandleAsync(CancellationToken ct)

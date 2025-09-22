@@ -6,6 +6,10 @@ using Rise.Shared.Products;
 
 namespace Rise.Services.Products;
 
+/// <summary>
+/// Service for products.
+/// </summary>
+/// <param name="dbContext"></param>
 public class ProductService(ApplicationDbContext dbContext) : IProductService
 {
     public async Task<Result<ProductResponse.Create>> CreateAsync(ProductRequest.Create request, CancellationToken ctx)
@@ -15,8 +19,12 @@ public class ProductService(ApplicationDbContext dbContext) : IProductService
             Log.Warning("Product with name '{Name}' already exists.", request.Name);
             return Result.Conflict($"Product with name '{request.Name}'  already exists.");
         }
-        
-        Product p = new(request.Name, request.Description);
+
+        var p = new Product
+        {
+            Name = request.Name,
+            Description = request.Description
+        };
         
         dbContext.Products.Add(p);
         
@@ -36,11 +44,23 @@ public class ProductService(ApplicationDbContext dbContext) : IProductService
         {
             query = query.Where(p => p.Name.Contains(request.SearchTerm) || p.Description.Contains(request.SearchTerm));
         }
-        
+
         var totalCount = await query.CountAsync(ctx);
-        
+
+        // Apply ordering
+        if (!string.IsNullOrWhiteSpace(request.OrderBy))
+        {
+            query = request.OrderDescending
+                ? query.OrderByDescending(e => EF.Property<string>(e, request.OrderBy))
+                : query.OrderBy(e => EF.Property<string>(e, request.OrderBy));
+        }
+        else
+        {
+            // Default order
+            query = query.OrderBy(p => p.Name);
+        }
+
         var products = await query.AsNoTracking()
-            .OrderBy(p => p.Name)
             .Skip(request.Skip)
             .Take(request.Take)
             .Select(p => new ProductDto.Index
@@ -50,7 +70,7 @@ public class ProductService(ApplicationDbContext dbContext) : IProductService
                 Description = p.Description,
             })
             .ToListAsync(ctx);
-        
+
         return Result.Success(new ProductResponse.Index
         {
             Products = products,

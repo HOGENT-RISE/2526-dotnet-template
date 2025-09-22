@@ -1,5 +1,8 @@
 ﻿namespace Rise.Shared.Products;
 
+/// <summary>
+/// Represents a static utility class containing request-related structures for products.
+/// </summary>
 public static partial class ProductRequest
 {
     public class Create

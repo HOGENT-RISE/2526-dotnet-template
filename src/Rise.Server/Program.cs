@@ -13,7 +13,7 @@ Log.Logger = new LoggerConfiguration()
     .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
     .Enrich.FromLogContext()
     .WriteTo.Console()
-    .CreateBootstrapLogger();
+    .CreateBootstrapLogger(); // Initial log setup, will be overwritten by Serilog, but we need a logger before Dependency Injection is activated.
 
 try
 {
@@ -21,26 +21,26 @@ try
     var builder = WebApplication.CreateBuilder(args);
 
     builder.Services
-        .AddSerilog((_, lc) => lc.ReadFrom.Configuration(builder.Configuration))
-        .AddIdentity<IdentityUser, IdentityRole>()
+        .AddSerilog((_, lc) => lc.ReadFrom.Configuration(builder.Configuration)) // Configuration in AppSettings.json
+        .AddIdentity<IdentityUser, IdentityRole>() 
         .AddEntityFrameworkStores<ApplicationDbContext>()
         .Services.AddDbContext<ApplicationDbContext>(o =>
         {
             var connectionString = builder.Configuration.GetConnectionString("DatabaseConnection") ??
                                    throw new InvalidOperationException("Connection string 'DatabaseConnection' not found.");
-            o.UseSqlite(connectionString);
-            o.EnableDetailedErrors();
-            o.EnableSensitiveDataLogging();
-            o.UseTriggers(options => options.AddTrigger<EntityBeforeSaveTrigger>());
+            o.UseSqlite(connectionString); // Swap Sqlite for your database provider (e.g. Sql Server, MySQL, PostgreSQL, etc.).
+            o.EnableDetailedErrors(); 
+            o.EnableSensitiveDataLogging(); // Disable in production.
+            o.UseTriggers(options => options.AddTrigger<EntityBeforeSaveTrigger>()); // Handles all UpdatedAt, CreatedAt stuff.
         })
-        .AddHttpContextAccessor()
-        .AddScoped<ISessionContextProvider, HttpContextSessionProvider>()
-        .AddApplicationServices()
+        .AddHttpContextAccessor() 
+        .AddScoped<ISessionContextProvider, HttpContextSessionProvider>() // Provides the current user from the HttpContext to the session provider.
+        .AddApplicationServices() // You'll need to add your own services in this function call.
         .AddAuthorization()
         .AddFastEndpoints(o =>
         {
-            o.IncludeAbstractValidators = true;
-            o.Assemblies = [typeof(Rise.Shared.Products.ProductRequest).Assembly];
+            o.IncludeAbstractValidators = true; // Include validators from abstract classes (see https://docs.fluentvalidation.net/en/latest/).
+            o.Assemblies = [typeof(Rise.Shared.Products.ProductRequest).Assembly]; // Adds the validators from other assemblies
         })
         .SwaggerDocument(o =>
         {
@@ -59,15 +59,15 @@ try
         {
             var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
             var dbSeeder = scope.ServiceProvider.GetRequiredService<DbSeeder>();
-            // dbContext.Database.EnsureDeleted();
+            // dbContext.Database.EnsureDeleted(); // Delete the database if it exists to clean it up if needed.
 
-            dbContext.Database.Migrate();
-            await dbSeeder.SeedAsync();
+            dbContext.Database.Migrate(); // Creates the database if it doesn't exist and applies all migrations. See Readme.md for more info.
+            await dbSeeder.SeedAsync(); // Seeds the database with some test data.
         }
     }
-
+    // Theses middlewares are strict in order of calling!
     app.UseHttpsRedirection()
-        .UseBlazorFrameworkFiles()
+        .UseBlazorFrameworkFiles() // Blazor is also served from the API. 
         .UseStaticFiles()
         .UseDefaultExceptionHandler()
         .UseAuthentication()
@@ -83,7 +83,7 @@ try
             };
         })
         .UseSwaggerGen();
-    app.MapFallbackToFile("index.html");
+    app.MapFallbackToFile("index.html"); // Serves the Blazor app from the API, when no routes match.
     app.Run();
 }
 catch (Exception ex)

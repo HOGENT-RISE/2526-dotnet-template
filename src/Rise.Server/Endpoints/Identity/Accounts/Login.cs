@@ -3,6 +3,11 @@ using Rise.Shared.Identity.Accounts;
 
 namespace Rise.Server.Endpoints.Identity.Accounts;
 
+/// <summary>
+/// Login Endpoint.
+/// See https://fast-endpoints.com/
+/// </summary>
+/// <param name="signInManager"></param>
 public class Login(SignInManager<IdentityUser> signInManager) : Endpoint<AccountRequest.Login, Result>
 {
     private const bool UseCookies = true;

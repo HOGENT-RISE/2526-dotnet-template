@@ -25,7 +25,11 @@ public static partial class AccountRequest
         /// This is required for users who have enabled two-factor authentication but lost access to their <see cref="TwoFactorCode"/>.
         /// </summary>
         public string? TwoFactorRecoveryCode { get; init; }
-        
+
+        /// <summary>
+        /// Provides validation rules for the <see cref="Login"/> class.
+        /// The validator ensures that required properties are present and conform to specific formats.
+        /// </summary>
         public class Validator : AbstractValidator<Login>
         {
             public Validator()

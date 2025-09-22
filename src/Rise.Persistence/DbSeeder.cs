@@ -98,16 +98,16 @@ public class DbSeeder(ApplicationDbContext dbContext, RoleManager<IdentityRole> 
             return;
         
         dbContext.Products.AddRange(
-            new Product("Laptop", "15-inch display, 16GB RAM"),
-            new Product("Smartphone", "6.5-inch screen, 128GB storage"),
-            new Product("Headphones", "Wireless noise-cancelling"),
-            new Product("Keyboard", "Mechanical RGB backlit"),
-            new Product("Mouse", "Ergonomic wireless mouse"),
-            new Product("Monitor", "27-inch 4K UHD display"),
-            new Product("Printer", "All-in-one inkjet printer"),
-            new Product("Camera", "Mirrorless 24MP with 4K video"),
-            new Product("Smartwatch", "Heart rate monitor, GPS"),
-            new Product("Speaker", "Bluetooth portable speaker")
+            new Product{ Name = "Laptop", Description = "15-inch display, 16GB RAM" },
+            new Product{ Name = "Smartphone", Description = "6.5-inch screen, 128GB storage" },
+            new Product{ Name = "Headphones", Description = "Wireless noise-cancelling" },
+            new Product{ Name = "Keyboard", Description = "Mechanical RGB backlit" },
+            new Product{ Name = "Mouse", Description = "Ergonomic wireless mouse" },
+            new Product{ Name = "Monitor", Description = "27-inch 4K UHD display" },
+            new Product{ Name = "Printer", Description = "All-in-one inkjet printer" },
+            new Product{ Name = "Camera", Description = "Mirrorless 24MP with 4K video" },
+            new Product{ Name = "Smartwatch", Description = "Heart rate monitor, GPS" },
+            new Product{ Name = "Speaker", Description = "Bluetooth portable speaker" }
         );
 
         await dbContext.SaveChangesAsync();
@@ -119,16 +119,28 @@ public class DbSeeder(ApplicationDbContext dbContext, RoleManager<IdentityRole> 
             return;
         
         var technicians = await dbContext.Technicians.ToListAsync();
+        
         if (!technicians.Any())
             return;
+        
+        var addresses = new List<Address>
+        {
+            new Address("Koningstraat 12", "Bus 3A", "Brussel", "1000"),
+            new Address("Meir 45", "", "Antwerpen", "2000"),
+            new Address("Veldstraat 78", "2e verdieping", "Gent", "9000"),
+            new Address("Rue de la Loi 175", "", "Bruxelles", "1040"),
+            new Address("Place Saint-Lambert 8", "Bureau 12", "Liège", "4000"),
+        };
 
-        var rnd = new Random();
+        var rnd = new Random(123); // Using a seed so the random is always the same.
         
         var projects = new List<Project>
         {
-            new("Website Redesign", technicians[rnd.Next(technicians.Count)]),
-            new("Mobile App Development", technicians[rnd.Next(technicians.Count)]),
-            new("Database Migration", technicians[rnd.Next(technicians.Count)])
+            new("Website Redesign", technicians[rnd.Next(technicians.Count)], addresses[rnd.Next(addresses.Count)]),
+            new("Mobile App Development", technicians[rnd.Next(technicians.Count)], addresses[rnd.Next(addresses.Count)]),
+            new("Database Migration", technicians[rnd.Next(technicians.Count)], addresses[rnd.Next(addresses.Count)]),
+            new("E-commerce Platform", technicians[rnd.Next(technicians.Count)], addresses[rnd.Next(addresses.Count)]),
+            new("CRM Integration", technicians[rnd.Next(technicians.Count)], addresses[rnd.Next(addresses.Count)])
         };
 
         dbContext.Projects.AddRange(projects);

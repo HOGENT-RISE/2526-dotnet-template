@@ -7,26 +7,33 @@ using Rise.Shared.Projects;
 
 namespace Rise.Services.Projects;
 
+/// <summary>
+/// Service for projects. Note the use of <see cref="ISessionContextProvider"/> to get the current user in this layer of the application.
+/// </summary>
+/// <param name="dbContext"></param>
+/// <param name="sessionContextProvider"></param>
 public class ProjectService(ApplicationDbContext dbContext, ISessionContextProvider sessionContextProvider) : IProjectService
 {
     public async Task<Result> EditAsync(ProjectRequest.Edit req, CancellationToken ctx)
     {
-        Project? p = await dbContext.Projects
-            .Include(x => x.Technician) // JOIN in SQL without this, the tech will always blank
+        var project = await dbContext.Projects
+            .Include(x => x.Technician)
             .SingleOrDefaultAsync(x => x.Id == req.ProjectId, ctx);
-        
-        if(p is null)
-            return Result.NotFound($"Project with Id '{req.ProjectId}' was not found.");
-        
-        Technician loggedInTechnician = await dbContext.Technicians.SingleAsync(x => x.AccountId == sessionContextProvider.User.GetUserId(), ctx);
 
-        if (!p.CanBeEditedBy(loggedInTechnician))
-            return Result.Unauthorized("You are not authorized to edit this project.");
+        if (project is null)
+            return Result.NotFound($"Project with Id '{req.ProjectId}' was not found.");
+
+        // Currently logged-in user must be the same as the project's technician.
+        var loggedInTechnician = await dbContext.Technicians
+            .SingleOrDefaultAsync(x => x.AccountId == sessionContextProvider.User!.GetUserId(), ctx);
         
-        p.Edit(req.Name);
+        if(loggedInTechnician is null || !project.CanBeEditedBy(loggedInTechnician))
+            return Result.Unauthorized("You are not authorized to edit this project.");
+
+        project.Edit(req.Name);
 
         await dbContext.SaveChangesAsync(ctx);
 
         return Result.Success();
-    }   
+    }
 }

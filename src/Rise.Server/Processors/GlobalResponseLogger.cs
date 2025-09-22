@@ -1,5 +1,9 @@
 namespace Rise.Server.Processors;
 
+/// <summary>
+/// Logs outgoing HTTP responses globally after they are processed, 
+/// including the request path and response result.
+/// </summary>
 public class GlobalResponseLogger : IGlobalPostProcessor
 {
     public Task PostProcessAsync(IPostProcessorContext context, CancellationToken ct)

@@ -4,6 +4,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Rise.Persistence.Configurations.Identity;
 
+/// <summary>
+/// Configuration for the Identity tables.
+/// </summary>
 internal class IdentityConfiguration :
     IEntityTypeConfiguration<IdentityUser>,
     IEntityTypeConfiguration<IdentityRole>,

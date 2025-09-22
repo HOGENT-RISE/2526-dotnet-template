@@ -2,6 +2,10 @@ using IResult = Ardalis.Result.IResult;
 
 namespace Rise.Server.Processors;
 
+/// <summary>
+/// Sends HTTP responses globally after processing by mapping <see cref="IResult"/> 
+/// status codes to corresponding HTTP status codes, and writing them to the response.
+/// </summary>
 sealed class GlobalResponseSender : IGlobalPostProcessor
 {
     public async Task PostProcessAsync(IPostProcessorContext ctx, CancellationToken ct)

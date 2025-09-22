@@ -6,6 +6,15 @@ using Rise.Domain.Projects;
 
 namespace Rise.Persistence;
 
+/// <summary>
+/// Entrance to the database, inherits from IdentityDbContext and is basically a Unit Of Work and Repository pattern combined.
+/// A <see cref="DbSet"/> is a repository for a specific type of entity.
+/// The <see cref="ApplicationDbContext"/> is the Unit Of Work pattern
+/// Will look very similar when switching database providers.
+/// See https://hogent-web.github.io/csharp/chapters/09/slides/index.html#1
+/// See https://enterprisecraftsmanship.com/posts/should-you-abstract-database/
+/// </summary>
+/// <param name="opts"></param>
 public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> opts) : IdentityDbContext<IdentityUser>(opts)
 {
     public DbSet<Product> Products => Set<Product>();

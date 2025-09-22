@@ -1,22 +1,18 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using Ardalis.GuardClauses;
-
-namespace Rise.Domain.Products;
+﻿namespace Rise.Domain.Products;
 
 public class Product : Entity
 {
-    public string Name { get; private set; }
-    public string Description { get; private set; }
-    /// <summary>
-    /// Entity Framework Core Constructor
-    /// </summary>
-    private Product()
+    private string _name = string.Empty;
+    public required string Name
     {
+        get => _name;
+        set => _name = Guard.Against.NullOrEmpty(value);
     }
 
-    public Product(string name, string description) 
+    private string _description = string.Empty;
+    public string Description
     {
-        Name = Guard.Against.NullOrEmpty(name);
-        Description = Guard.Against.NullOrEmpty(description);
+        get => _description;
+        set => _description = Guard.Against.NullOrEmpty(value);
     }
 }

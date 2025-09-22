@@ -4,6 +4,11 @@ using Rise.Shared.Identity.Accounts;
 
 namespace Rise.Server.Endpoints.Identity.Accounts;
 
+/// <summary>
+/// Get the logged in user info, Roles, Claims, etc.
+/// See https://fast-endpoints.com/
+/// </summary>
+/// <param name="userManager"></param>
 public class Info(UserManager<IdentityUser> userManager) : EndpointWithoutRequest<Result<AccountResponse.Info>>
 {
     public override void Configure()

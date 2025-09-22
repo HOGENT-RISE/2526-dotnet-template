@@ -1,5 +1,8 @@
 ﻿namespace Rise.Shared.Products;
 
+/// <summary>
+/// Represents the response structure for product-related operations.
+/// </summary>
 public static partial class ProductResponse
 {
     public class Index

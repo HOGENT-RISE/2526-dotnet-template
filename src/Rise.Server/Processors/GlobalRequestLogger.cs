@@ -1,5 +1,9 @@
 namespace Rise.Server.Processors;
 
+/// <summary>
+/// Logs incoming HTTP requests globally before they are processed, 
+/// including the request path and parameters.
+/// </summary>
 public class GlobalRequestLogger : IGlobalPreProcessor
 {
     public Task PreProcessAsync(IPreProcessorContext context, CancellationToken ct)

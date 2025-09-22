@@ -1,16 +1,20 @@
 using Rise.Shared.Identity;
 using Rise.Shared.Identity.Roles;
+using Microsoft.AspNetCore.Identity;
 
 namespace Rise.Server.Endpoints.Identity.Roles;
 
-using Microsoft.AspNetCore.Identity;
-
+/// <summary>
+/// Create a new role.
+/// See https://fast-endpoints.com/
+/// </summary>
+/// <param name="roleManager"></param>
 public class Create(RoleManager<IdentityRole> roleManager) : Endpoint<RoleRequest.Create, Result<string>>
 {
     public override void Configure()
     {
         Post("/api/identity/roles");
-        // Roles(AppRoles.Administrator);
+        Roles(AppRoles.Administrator);
     }
 
     public override async Task<Result<string>> ExecuteAsync(RoleRequest.Create req, CancellationToken ctx)

@@ -1,18 +1,20 @@
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
 using Rise.Shared.Identity;
-using Rise.Shared.Identity.Roles;
+using Microsoft.AspNetCore.Identity;
 
 namespace Rise.Server.Endpoints.Identity.Roles;
 
-using Microsoft.AspNetCore.Identity;
-
+/// <summary>
+/// List all roles.
+/// See https://fast-endpoints.com/ 
+/// </summary>
+/// <param name="roleManager"></param>
 public class Index(RoleManager<IdentityRole> roleManager) : EndpointWithoutRequest<Result<List<KeyValuePair<string, string>>>>
 {
     public override void Configure()
     {
         Get("/api/identity/roles");
-        // Roles(AppRoles.Administrator);
+        Roles(AppRoles.Administrator);
     }
 
     public override async Task<Result<List<KeyValuePair<string, string>>>> ExecuteAsync(CancellationToken ctx)

@@ -24,7 +24,7 @@ public class Login(SignInManager<IdentityUser> signInManager) : Endpoint<Account
         var isPersistent = UseCookies && (UseSessionCookies != true);
         signInManager.AuthenticationScheme = useCookieScheme ? IdentityConstants.ApplicationScheme : IdentityConstants.BearerScheme;
 
-        var result = await signInManager.PasswordSignInAsync(req.Email, req.Password, isPersistent, lockoutOnFailure: true);
+        var result = await signInManager.PasswordSignInAsync(req.Email!, req.Password!, isPersistent, lockoutOnFailure: true);
 
         if (result.RequiresTwoFactor)
         {

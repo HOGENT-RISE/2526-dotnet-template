@@ -29,7 +29,7 @@ public class Register(UserManager<IdentityUser> userManager, IUserStore<Identity
         var user = new IdentityUser();
         await userStore.SetUserNameAsync(user, req.Email, CancellationToken.None);
         await emailStore.SetEmailAsync(user, req.Email, CancellationToken.None);
-        var result = await userManager.CreateAsync(user, req.Password);
+        var result = await userManager.CreateAsync(user, req.Password!);
         
         if (!result.Succeeded)
         {

@@ -189,7 +189,7 @@ namespace Rise.Client.Identity
         {
             const string Empty = "{}";
             var emptyContent = new StringContent(Empty, Encoding.UTF8, "application/json");
-            await httpClient.PostAsync("api/identity/logout", emptyContent);
+            await httpClient.PostAsync("/api/identity/accounts/login", emptyContent);
             NotifyAuthenticationStateChanged(GetAuthenticationStateAsync());
         }
 

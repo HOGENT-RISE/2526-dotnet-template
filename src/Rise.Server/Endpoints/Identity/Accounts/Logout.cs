@@ -11,7 +11,7 @@ public class Logout(SignInManager<IdentityUser> signInManager) : EndpointWithout
 {
     public override void Configure()
     {
-        Post("api/identity/logout");
+        Post("/api/identity/accounts/logout");
     }
 
     public override async Task<Result> HandleAsync(CancellationToken ct)

@@ -1,4 +1,6 @@
-﻿namespace Rise.Shared.Identity.Accounts;
+﻿using Destructurama.Attributed;
+
+namespace Rise.Shared.Identity.Accounts;
 
 public static partial class AccountRequest
 {
@@ -12,6 +14,7 @@ public static partial class AccountRequest
         /// <summary>
         /// The user's password.
         /// </summary>
+        [LogMasked]
         public string? Password { get; set; }
 
         /// <summary>

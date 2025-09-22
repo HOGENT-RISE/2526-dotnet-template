@@ -1,4 +1,6 @@
-﻿namespace Rise.Shared.Identity.Accounts;
+﻿using Destructurama.Attributed;
+
+namespace Rise.Shared.Identity.Accounts;
 
 /// <summary>
 /// Represents a request structure for account-related operations, such as registration or authentication.
@@ -15,11 +17,13 @@ public static partial class AccountRequest
         /// <summary>
         /// The user's password.
         /// </summary>
+        [LogMasked]
         public string? Password { get; set; }
         
         /// <summary>
         /// The user's password.
         /// </summary>
+        [LogMasked]
         public string? ConfirmPassword { get; set; }
         
         // Other needed stuff here, like Role(s), Firstname, lastname etc.

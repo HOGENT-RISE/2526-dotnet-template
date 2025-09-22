@@ -1,3 +1,4 @@
+using Destructurama;
 using FastEndpoints.Swagger;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -21,7 +22,8 @@ try
     var builder = WebApplication.CreateBuilder(args);
 
     builder.Services
-        .AddSerilog((_, lc) => lc.ReadFrom.Configuration(builder.Configuration)) // Configuration in AppSettings.json
+        .AddSerilog((_, lc) => lc.ReadFrom.Configuration(builder.Configuration) // Configuration in AppSettings.json
+            .Destructure.UsingAttributes()) // Sensitive data logging
         .AddIdentity<IdentityUser, IdentityRole>() 
         .AddEntityFrameworkStores<ApplicationDbContext>()
         .Services.AddDbContext<ApplicationDbContext>(o =>

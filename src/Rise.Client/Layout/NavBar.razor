@@ -23,6 +23,16 @@
       <NavLink class="navbar-item" href="counter">
         Counter
       </NavLink>
+      <AuthorizeView>
+        <Authorized>
+          <NavLink class="navbar-item" href="private">
+            Private Page
+          </NavLink>
+          <NavLink class="navbar-item" href="private-administrator">
+            Private Administrator
+          </NavLink>
+        </Authorized>
+      </AuthorizeView>
     </div>
 
     <div class="navbar-end">

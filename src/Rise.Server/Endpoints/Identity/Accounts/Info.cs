@@ -14,7 +14,6 @@ public class Info(UserManager<IdentityUser> userManager) : EndpointWithoutReques
     public override void Configure()
     {
         Get("/api/identity/accounts/info");
-        AllowAnonymous();
     }
 
     public override async Task<Result<AccountResponse.Info>> ExecuteAsync(CancellationToken ct)

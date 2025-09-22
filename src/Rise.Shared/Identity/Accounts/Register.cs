@@ -10,12 +10,17 @@ public static partial class AccountRequest
         /// <summary>
         /// The user's email address which acts as a user name.
         /// </summary>
-        public required string Email { get; init; }
+        public string? Email { get; set; }
 
         /// <summary>
         /// The user's password.
         /// </summary>
-        public required string Password { get; init; }
+        public string? Password { get; set; }
+        
+        /// <summary>
+        /// The user's password.
+        /// </summary>
+        public string? ConfirmPassword { get; set; }
         
         // Other needed stuff here, like Role(s), Firstname, lastname etc.
 
@@ -28,6 +33,9 @@ public static partial class AccountRequest
             {
                 RuleFor(x => x.Email).NotEmpty().EmailAddress();
                 RuleFor(x => x.Password).NotEmpty();
+                RuleFor(x => x.ConfirmPassword)
+                    .Equal(x => x.Password)
+                    .WithMessage("Passwords do not match.");
             }
         }
     }

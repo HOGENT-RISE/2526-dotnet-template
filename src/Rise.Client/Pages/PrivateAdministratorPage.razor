@@ -1,13 +1,14 @@
-﻿@page "/private-editor-page"
-@attribute [Authorize(Roles = "Editor")]
+﻿@page "/private-administrator"
+@attribute [Authorize(Roles = AppRoles.Administrator)]
 @using System.Security.Claims
+@using Rise.Shared.Identity
 
-<PageTitle>Private Editor Page</PageTitle>
+<PageTitle>Private Manager Page</PageTitle>
 
-<h1>Private Editor Page</h1>
+<h1>Private Administrator Page</h1>
 
 <AuthorizeView>
-    <p>Hello, @context.User.Identity?.Name! You're authenticated and you have an <b>Editor</b> role claim, so you can see this page.</p>
+    <p>Hello, @context.User.Identity?.Name! You're authenticated and you have a <b>Administrator</b> role claim, so you can see this page.</p>
 </AuthorizeView>
 
 <h2>Claims</h2>
@@ -34,7 +35,6 @@
         {
             return;
         }
-
         var authState = await AuthState;
         claims = authState.User.Claims;
     }

@@ -1,5 +1,4 @@
 @page "/logout"
-@inject IAccountManager AccountManager
 
 <PageTitle>Logout</PageTitle>
 
@@ -11,13 +10,3 @@
         <div class="alert alert-success">You're logged out. <a href="/login">Log in.</a></div>
     </NotAuthorized>
 </AuthorizeView>
-
-@code {
-    protected override async Task OnInitializedAsync()
-    {
-        if (await AccountManager.CheckAuthenticatedAsync())
-        {
-            await AccountManager.LogoutAsync();
-        }
-    }
-}

@@ -11,7 +11,7 @@ public class Create(IProductService productService) : Endpoint<ProductRequest.Cr
 {
     public override void Configure()
     {
-        Post("/api/product");
+        Post("/api/products");
         Roles(AppRoles.Administrator); // Only Administrators can create products.
     }
 

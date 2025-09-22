@@ -11,7 +11,7 @@ public class Index(IProductService productService) : Endpoint<QueryRequest.SkipT
 {
     public override void Configure()
     {
-        Get("/api/product");
+        Get("/api/products");
         AllowAnonymous(); 
     }
 

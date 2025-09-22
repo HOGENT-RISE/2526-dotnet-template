@@ -27,9 +27,7 @@
 
 1. Clone the repository
 
-2. Open the `Rise.sln` file in [Rider](https://www.jetbrains.com/rider/), [Visual Studio](https://visualstudio.microsoft.com/) or  [Visual Studio Code](https://code.visualstudio.com/).
-
-   1. We prefer Rider, but you're free to choose.
+2. Open the `Rise.sln` file in [Rider](https://www.jetbrains.com/rider/), [Visual Studio](https://visualstudio.microsoft.com/) or  [Visual Studio Code](https://code.visualstudio.com/). (we prefer Rider, but you're free to choose.)
 
 3. Run the project using the `Rise.Server` project as the startup project
 
@@ -59,33 +57,41 @@
 
 ## Creation of the database
 
-Install the dotnet ef tool globally by running the following command in your terminal (only do this once)
+Is done by the app itself using migrations. To add and remove migrations, install the dotnet ef tool globally by running the following command in your terminal (only do this once)
 
 ```
 dotnet tool install --global dotnet-ef
 ```
 
-To create the database, run the following command in the main folder `Rise`
-
-```
-dotnet ef database update --startup-project Rise.Server --project Rise.Persistence
-```
-
-> Make sure your connection string is correct in the `Rise/Server/appsettings.json` file.
-
 ## Migrations
 
-Adapting the database schema can be done using migrations. To create a new migration, run the following command:
+Adapting the database schema can be done using migrations. To create a new migration, run the following command in the `src` folder
 
 ```
-dotnet ef migrations add [MIGRATION_NAME] --startup-project Rise.Server --project Rise.Persistence
+dotnet ef migrations add YourMigrationName --startup-project Rise.Server --project Rise.Persistence
 ```
 
-And then update the database using the following command:
+And then update the database using the following command, or run the `Rise.Server`
 
 ```
 dotnet ef database update --startup-project Rise.Server --project Rise.Persistence
 ```
+
+## Usefull Commands
+
+In the `src/Rise.Server` folder
+
+`dotnet watch --non-interactive` 
+
+The `dotnet watch` command is a file watcher. When it detects a change, it runs the `dotnet run` command or a specified `dotnet` command. If it runs `dotnet run`, and the change is supported for [hot reload](https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet-watch#hot-reload), it hot reloads the specified application. If the change isn't supported, it restarts the application. This process enables fast iterative development from the command line.
+
+`dotnet run`
+
+The `dotnet run` command provides a convenient option to run your application from the source code with one command. It's useful for fast iterative development from the command line. The command depends on the [`dotnet build`](https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet-build) command to build the code. Any requirements for the build apply to `dotnet run` as wel
+
+`dotnet clean `- you won't need this often
+
+The `dotnet clean` command cleans the output of the previous build. It's implemented as an [MSBuild target](https://learn.microsoft.com/en-us/visualstudio/msbuild/msbuild-targets), so the project is evaluated when the command is run. Only the outputs created during the build are cleaned. Both intermediate (*obj*) and final output (*bin*) folders are cleaned.
 
 ## Authentication
 

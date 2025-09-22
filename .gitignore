@@ -1,0 +1,13 @@
+bin/
+obj/
+/packages/
+riderModule.iml
+/_ReSharper.Caches/
+**/.DS_Store
+
+
+src/Rise.Server/Data/
+
+src/Rise.Server/Logs/
+
+Rise.sln.DotSettings.user

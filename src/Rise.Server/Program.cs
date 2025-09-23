@@ -31,11 +31,14 @@ try
             var connectionString = builder.Configuration.GetConnectionString("DatabaseConnection") ??
                                    throw new InvalidOperationException("Connection string 'DatabaseConnection' not found.");
             o.UseSqlite(connectionString); // Swap Sqlite for your database provider (e.g. Sql Server, MySQL, PostgreSQL, etc.).
-            o.EnableDetailedErrors(); 
-            o.EnableSensitiveDataLogging(); // Disable in production.
+            o.EnableDetailedErrors();
+            if (builder.Environment.IsDevelopment())
+            {
+                o.EnableSensitiveDataLogging(); // only enabled in development.
+            }
             o.UseTriggers(options => options.AddTrigger<EntityBeforeSaveTrigger>()); // Handles all UpdatedAt, CreatedAt stuff.
         })
-        .AddHttpContextAccessor() 
+        .AddHttpContextAccessor()
         .AddScoped<ISessionContextProvider, HttpContextSessionProvider>() // Provides the current user from the HttpContext to the session provider.
         .AddApplicationServices() // You'll need to add your own services in this function call.
         .AddAuthorization()

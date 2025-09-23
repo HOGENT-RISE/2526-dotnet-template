@@ -199,10 +199,23 @@ Let’s look at each of these in more detail:
 
 **Typical Contents**:
 
-- **Endpoints**: These handle HTTP requests and responses. They receive requests, pass them to the appropriate application service, and return the result mapped from `Ardalis.Result`
+- **Endpoints**: These handle HTTP requests and responses. They receive requests, pass them to the appropriate application service, and return the result.
 - **Processors**: Custom components that handle cross-cutting concerns such as logging, or error handling.
 - **Dependency Injection Configuration**: The **Server** project contains the setup for the dependency injection container, where the various services and other dependencies are registered.
 - **Serving the Blazor Client** : If no endspoints are found, the **Server** returns the Blazor WebAssembly (WASM) **Client**, it's rather optional but it makes hosting a lot easier (No CORS issues etc.)
+
+**Centralized Response Handling**:
+
+You might notice something interesting about how endpoints send responses. In `Program.cs`, the FastEndpoints configuration includes `ep.DontAutoSendResponse()`. This setting disables the default behavior where an endpoint would immediately send back whatever it returns.
+
+So how are responses sent? We use a custom **Post-Processor** called `GlobalResponseSender`. This processor runs after every endpoint and is responsible for creating the final HTTP response. It takes the object returned by your endpoint—typically an `Ardalis.Result`—and intelligently maps it to the correct HTTP status code.
+
+For example:
+- If your endpoint returns a successful `Result<ProductDto>`, the processor creates a `200 OK` response containing the product data.
+- If it returns `Result.Invalid(errors)`, the processor creates a `400 Bad Request` response with the validation errors.
+- If it returns `Result.NotFound()`, it becomes a `404 Not Found` response.
+
+This pattern is powerful because it keeps your endpoint logic clean and focused on its core task, while ensuring all your API responses are consistent and handled in one central place.
 
 **Why this separation?**: The **API** layer provides a clean separation between the user interface (UI) and the business logic. This project acts as the boundary between your back-end system and the outside world, and it enforces that external clients (e.g., mobile apps or front-end websites) communicate in a consistent and defined way.
 

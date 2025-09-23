@@ -45,6 +45,6 @@ public class Login(SignInManager<IdentityUser> signInManager) : Endpoint<Account
 
         // The signInManager already produced the needed response in the form of a cookie or bearer token.
         
-        return Result.NoContent();
+        return Result.Success();
     }
 }

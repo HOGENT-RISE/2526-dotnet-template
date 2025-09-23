@@ -11,3 +11,9 @@ src/Rise.Server/Data/
 src/Rise.Server/Logs/
 
 Rise.sln.DotSettings.user
+
+src/Rise.Server/Rise.db
+
+src/Rise.Server/Rise.db-shm
+
+src/Rise.Server/Rise.db-wal

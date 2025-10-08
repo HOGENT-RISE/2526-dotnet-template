@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
-using Rise.Client;
-using Rise.Client.Identity;
-using Rise.Client.Products;
+using Rise.Desktop;
+using Rise.Desktop.Identity;
+using Rise.Desktop.Products;
 using Rise.Shared.Products;
 
 try

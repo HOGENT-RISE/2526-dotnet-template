@@ -1,7 +1,7 @@
 
 using Microsoft.AspNetCore.Components.WebAssembly.Http;
 
-namespace Rise.Client.Identity
+namespace Rise.Desktop.Identity
 {
     /// <summary>
     /// Handler to ensure cookie credentials are automatically sent over with each request.

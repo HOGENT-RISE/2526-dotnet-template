@@ -5,7 +5,7 @@ using Ardalis.Result;
 using Rise.Shared.Common;
 using Rise.Shared.Products;
 
-namespace Rise.Client.Products;
+namespace Rise.Desktop.Products;
 
 public class FakeProductService : IProductService
 {

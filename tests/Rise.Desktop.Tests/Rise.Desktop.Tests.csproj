@@ -5,7 +5,7 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <IsPackable>false</IsPackable>
-        <RootNamespace>Rise.Client</RootNamespace>
+        <RootNamespace>Rise.Desktop</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
@@ -40,7 +40,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\src\Rise.Client\Rise.Client.csproj" />
+      <ProjectReference Include="..\..\src\Rise.Desktop\Rise.Desktop.csproj" />
     </ItemGroup>
 
 </Project>

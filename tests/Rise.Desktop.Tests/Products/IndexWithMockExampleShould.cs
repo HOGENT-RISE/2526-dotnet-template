@@ -7,7 +7,7 @@ using System.Linq;
 using Ardalis.Result;
 using Rise.Shared.Common;
 
-namespace Rise.Client.Products;
+namespace Rise.Desktop.Products;
 
 /// <summary>
 /// Same as <see cref="IndexShould"/> using mocking instead of faking.

@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Components;
 using Rise.Shared.Products;
 
-namespace Rise.Client.Products;
+namespace Rise.Desktop.Products;
 
 
 public partial class Create

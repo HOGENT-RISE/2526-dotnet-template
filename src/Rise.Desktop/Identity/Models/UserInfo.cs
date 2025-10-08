@@ -1,4 +1,4 @@
-﻿namespace Rise.Client.Identity.Models
+﻿namespace Rise.Desktop.Identity.Models
 {
     /// <summary>
     /// User info from identity endpoint to establish claims.

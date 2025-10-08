@@ -3,7 +3,7 @@ using Xunit.Abstractions;
 using Shouldly;
 using System.Collections.Generic;
 
-namespace Rise.Client.Products;
+namespace Rise.Desktop.Products;
 
 /// <summary>
 /// These tests are written entirely in C#.

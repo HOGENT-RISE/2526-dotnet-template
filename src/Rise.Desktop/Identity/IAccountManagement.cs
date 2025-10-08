@@ -1,4 +1,4 @@
-﻿namespace Rise.Client.Identity
+﻿namespace Rise.Desktop.Identity
 {
     /// <summary>
     /// Account management services.

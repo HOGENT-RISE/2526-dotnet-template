@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Components;
 
-namespace Rise.Client.Identity;
+namespace Rise.Desktop.Identity;
 
 public partial class Logout
 {

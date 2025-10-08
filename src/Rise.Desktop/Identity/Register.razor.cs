@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Components;
 using Rise.Shared.Identity.Accounts;
 
-namespace Rise.Client.Identity;
+namespace Rise.Desktop.Identity;
 
 public partial class Register
 {

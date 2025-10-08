@@ -2,7 +2,7 @@
 using System.Net.Http.Json;
 using Rise.Shared.Common;
 
-namespace Rise.Client.Products;
+namespace Rise.Desktop.Products;
 
 public class ProductService(HttpClient httpClient) : IProductService
 {

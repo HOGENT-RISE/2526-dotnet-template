@@ -4,7 +4,7 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Components.Authorization;
 using Rise.Shared.Identity.Accounts;
 
-namespace Rise.Client.Identity
+namespace Rise.Desktop.Identity
 {
     /// <summary>
     /// Handles state for cookie-based auth.

@@ -47,6 +47,19 @@ try
             o.IncludeAbstractValidators = true; // Include validators from abstract classes (see https://docs.fluentvalidation.net/en/latest/).
             o.Assemblies = [typeof(Rise.Shared.Products.ProductRequest).Assembly]; // Adds the validators from other assemblies
         })
+        .AddCors(options =>
+        {
+            options.AddPolicy("wasm", policy =>
+            {
+                policy.WithOrigins(
+                        builder.Configuration["Backend"] ?? "https://localhost:5001",
+                        builder.Configuration["Desktop"] ?? "https://localhost:5002",
+                        builder.Configuration["Mobile"] ?? "https://localhost:5003")
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .AllowCredentials();
+            });
+        })
         .SwaggerDocument(o =>
         {
             o.DocumentSettings = s =>
@@ -73,6 +86,7 @@ try
     // Theses middlewares are strict in order of calling!
     app.UseHttpsRedirection()
         .UseDefaultExceptionHandler()
+        .UseCors("wasm")
         .UseAuthentication()
         .UseAuthorization()
         .UseFastEndpoints(o =>

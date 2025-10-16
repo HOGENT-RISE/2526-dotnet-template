@@ -25,23 +25,23 @@ internal class IdentityConfiguration :
     // The default below will work on any provider.
     
     public void Configure(EntityTypeBuilder<IdentityUser> builder)
-        => builder.ToTable("Users");
+        => builder.ToTable("Account");
 
     public void Configure(EntityTypeBuilder<IdentityRole> builder)
-        => builder.ToTable("Roles");
+        => builder.ToTable("Role");
 
     public void Configure(EntityTypeBuilder<IdentityUserRole<string>> builder)
-        => builder.ToTable("UserRoles");
+        => builder.ToTable("AccountRole");
 
     public void Configure(EntityTypeBuilder<IdentityUserClaim<string>> builder)
-        => builder.ToTable("UserClaims");
+        => builder.ToTable("AccountClaim");
 
     public void Configure(EntityTypeBuilder<IdentityUserLogin<string>> builder)
-        => builder.ToTable("UserLogins");
+        => builder.ToTable("AccountLogin");
 
     public void Configure(EntityTypeBuilder<IdentityRoleClaim<string>> builder)
-        => builder.ToTable("RoleClaims");
+        => builder.ToTable("RoleClaim");
 
     public void Configure(EntityTypeBuilder<IdentityUserToken<string>> builder)
-        => builder.ToTable("UserTokens");
+        => builder.ToTable("AccountToken");
 }

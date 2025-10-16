@@ -1,12 +1,15 @@
 ﻿@page "/counter"
+@using Rise.Client.Components
+<Page>
+    <Title>Counter</Title>
+    <Actions>
+        <button class="button mt-2" @onclick="IncrementCount">Click me</button>
+    </Actions>
+    <Body>
+    <p role="status">Current count: @currentCount</p>
 
-<PageTitle>Counter</PageTitle>
-
-<h1 class="title">Counter</h1>
-
-<p role="status">Current count: @currentCount</p>
-
-<button class="button mt-2" @onclick="IncrementCount">Click me</button>
+    </Body>
+</Page>
 
 @code {
     private int currentCount = 0;

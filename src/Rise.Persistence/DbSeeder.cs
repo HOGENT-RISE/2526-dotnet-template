@@ -136,7 +136,7 @@ public class DbSeeder(ApplicationDbContext dbContext, RoleManager<IdentityRole> 
         
         var projects = new List<Project>
         {
-            new("Website Redesign", technicians[rnd.Next(technicians.Count)], addresses[0]),
+            new("Website Redesign", technicians.Single(x => x.Id == 1), addresses[0]),
             new("Mobile App Development", technicians[rnd.Next(technicians.Count)], addresses[1]),
             new("Database Migration", technicians[rnd.Next(technicians.Count)], addresses[2]),
             new("E-commerce Platform", technicians[rnd.Next(technicians.Count)], addresses[3]),

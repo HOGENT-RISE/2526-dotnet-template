@@ -31,7 +31,8 @@ public class ProjectServiceShould
         await dbContext.SaveChangesAsync();
 
         var claimsPrincipal = new ClaimsPrincipal(new ClaimsIdentity([
-            new Claim(ClaimTypes.NameIdentifier, technicianAccountId)
+            new Claim(ClaimTypes.NameIdentifier, technicianAccountId),
+            new Claim("TechnicianId", technician.Id.ToString())
         ], "mock"));
 
         var sessionProvider = new FakeSessionContextProvider(claimsPrincipal);

@@ -12,4 +12,13 @@ namespace Rise.Server.Identity;
 public class HttpContextSessionProvider(IHttpContextAccessor httpContextAccessor) : ISessionContextProvider 
 { 
     public ClaimsPrincipal? User => httpContextAccessor!.HttpContext?.User; 
+    
+    public int? TechnicianId
+    {
+        get
+        {
+            var value = User?.FindFirst("TechnicianId")?.Value;
+            return int.TryParse(value, out var id) ? id : null;
+        }
+    }
 } 

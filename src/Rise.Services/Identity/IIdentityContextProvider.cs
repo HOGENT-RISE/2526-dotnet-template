@@ -10,4 +10,5 @@ namespace Rise.Services.Identity;
 public interface ISessionContextProvider
 {
     ClaimsPrincipal? User { get; } 
+    int? TechnicianId { get; }
 }

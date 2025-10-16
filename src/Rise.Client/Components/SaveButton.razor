@@ -1,0 +1,24 @@
+<button class="button is-primary" @onclick="HandleOnClick" disabled="@_isLoading">Save</button>
+
+@code {
+    bool _isLoading;
+    [Parameter, EditorRequired] public EventCallback<MouseEventArgs> OnClick { get; set; }
+
+    async Task HandleOnClick(MouseEventArgs args)
+    {
+        try
+        {
+            _isLoading = true;
+            await OnClick.InvokeAsync(args);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+        finally
+        {
+            _isLoading = false;
+        }
+    }
+}
